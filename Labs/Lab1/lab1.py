@@ -25,19 +25,20 @@ if __name__ == '__main__':
     A, B = int(input("Введите параметр A, левую границу отрезка: ")), int(
         input("Введите параметр B, правую границу отрезка: "))
     epsilon = 10 ** ((-1) * int(input("Введите x, степень точности 10 ** (-x): ")))
-    N = 1 / epsilon
+    N = 100
 
     funcs = {"Метод бисекции": bisection_method, "Метод Ньютона": newton_method,
              "Модифицированный метод Ньютона": modified_newton_method, "Метод секущих": secant_method}
     sections = localize_roots(A, B, F, N)
 
     print("\nКоличество отрезков перемены знака функции: " + str(len(sections)))
-    print("Отрезки перемена знака функции:\n" + ",".join(str(i) for i in sections))
+    print("Отрезки перемена знака функции:\n" + "\n".join(str(i) for i in sections))
 
     for i, j in sections:
+        print("\nПоиск корня для отрезка (" + str(i) + ", " + str(j) + ")")
         for title, g in funcs.items():
             steps, approximated_x, diff, first_approximation = g(i, j, F, epsilon, Derivative, SecondDerivative)
-            print("\n=============================================================\n")
+            print("\n=============================================================")
             print(title)
             print("Начальное приближение: " + str(first_approximation))
             if steps < 0:
@@ -45,5 +46,7 @@ if __name__ == '__main__':
                 continue
             print("Количество шагов: " + str(steps))
             print("Приближенное решение: " + str(approximated_x))
-            print("Расстояние до предыдущего приближения: " + str(diff))
-            print("Абсолютная величина невязки: " + str(F(approximated_x)))
+            print("Расстояние до предыдущего приближения: " + str(abs(diff)))
+            print("Абсолютная величина невязки: " + str(abs(F(approximated_x))))
+
+        print("\n\n")
