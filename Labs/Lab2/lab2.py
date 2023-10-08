@@ -33,6 +33,11 @@ def get_p_n(x, key_values, n):
         (f_sep_extr(key_values[:n + 1])) * math.prod([x - i[0] for i in key_values[:n]])
 
 
+def get_p_l(x, key_values):
+    return sum(math.prod([x - j[0] for j in key_values if j[0] != i]) /
+               math.prod([i - j[0] for j in key_values if j[0] != i]) * value for i, value in key_values)
+
+
 def run_task(com=""):
     print("Задача алгебраического интерполирования\nВариант 8")
     print("Условия варианта 8: f(x)=2·sin(x) – x/2  a=0,2  b=0,7  m+1=11  n=8")
@@ -57,16 +62,17 @@ def run_task(com=""):
         for k, v in modified_table:
             print("{:<30} {:<30}".format(k, v))
 
-        p_l = sum(math.prod([x - j[0] for j in modified_table if j[0] != i]) /
-                  math.prod([i - j[0] for j in modified_table if j[0] != i]) * value for i, value in modified_table)
+        p_l = get_p_l(x, modified_table)
         print(
-            "\nЗначение интерполяционного многочлена, найденного при помощи представления в форме Лагранжа: {}".format(p_l))
+            "\nЗначение интерполяционного многочлена, найденного при помощи представления в форме Лагранжа: {}".format(
+                p_l))
         efn_l = abs(f(x) - p_l)
         print("Значение абсолютной фактической погрешности для формы Лагранжа: {}".format(efn_l))
 
         p_n = get_p_n(x, modified_table, n)
         print(
-            "\nЗначение интерполяционного многочлена, найденного при помощи представления в форме Ньютона: {}".format(p_n))
+            "\nЗначение интерполяционного многочлена, найденного при помощи представления в форме Ньютона: {}".format(
+                p_n))
         efn_p = abs(f(x) - p_n)
         print("Значение абсолютной фактической погрешности для формы Ньютона: {}".format(efn_p))
         com = input("Введите новое значение x или введите exit, чтобы завершить программу\n")
