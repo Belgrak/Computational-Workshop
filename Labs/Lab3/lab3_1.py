@@ -67,12 +67,14 @@ def run_task(com=""):
             print("Ошибка. Указано неверное значение n")
             n = int(input("Введите степень интерполяционного многочлена n ≤ {}: ".format(m1 - 1)))
         F = float(input("Введите значение функции для обратного интерполирования: "))
-        epsilon = 10 ** ((-1) * int(input("Введите x, степень точности 10 ** (-x): ")))
+        epsilon = 10 ** ((-1) * int(input("Введите точность y, степень точности 10 ** (-y): ")))
         print("\n Метод первый:")
         first_method(f, n, F, initial_table)
         print("\n Метод второй:")
         second_method(f, a, b, n, F, epsilon, initial_table)
-        com = input("Введите новое значение x или введите exit, чтобы завершить программу: ")
+        input()
+        com = input("Нажмите Enter или введите exit, чтобы завершить программу: ")
+        print("\n")
 
 
 if __name__ == '__main__':
