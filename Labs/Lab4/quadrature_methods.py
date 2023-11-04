@@ -1,10 +1,6 @@
 import random
 
 
-def rectangle_method(f, a, b):
-    return (b - a) * f(random.uniform(a, b))
-
-
 def left_rectangle_method(f, a, b):
     return (b - a) * f(a)
 
@@ -15,10 +11,6 @@ def right_rectangle_method(f, a, b):
 
 def middle_rectangle_method(f, a, b):
     return (b - a) * f((a + b) / 2)
-
-
-def trapeze_method(f, a, b):
-    return (b - a) / 2 * (f(a) + f(b))
 
 
 def trapeze_method(f, a, b):

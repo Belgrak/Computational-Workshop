@@ -1,5 +1,15 @@
-from quadrature_methods import rectangle_method, left_rectangle_method, right_rectangle_method, middle_rectangle_method, \
+import math
+
+from quadrature_methods import left_rectangle_method, right_rectangle_method, middle_rectangle_method, \
     trapeze_method, simpson_method, three_eighth_method
+
+
+def f_custom(x):
+    return math.cos(x) - 2 * x
+
+
+def integral_f_custom(a, b):
+    return math.sin(b) - math.sin(a) + a * a - b * b
 
 
 def f_0(x):
@@ -36,13 +46,13 @@ def integral_f_3(a, b):
 
 print("Приближённое вычисление интеграла по квадратурным формулам")
 a, b = float(input("Введите границу интегрирования a: ")), float(input("Введите границу интегрирования b: "))
-funcs = {f_0: integral_f_0, f_1: integral_f_1, f_2: integral_f_2, f_3: integral_f_3}
-funcs_str = {f_0: "1", f_1: "2 * x", f_2: "3 * (x ** 2)", f_3: "4 * (x ** 3)"}
+funcs = {f_custom: integral_f_custom, f_0: integral_f_0, f_1: integral_f_1, f_2: integral_f_2, f_3: integral_f_3}
+funcs_str = {f_custom: "cos(x) - 2 * x", f_0: "1", f_1: "2 * x", f_2: "3 * (x ** 2)", f_3: "4 * (x ** 3)"}
 for f in funcs.keys():
     print("\n", f"Функция f: {funcs_str[f]}")
     j = funcs[f](a, b)
     print("Значение интеграла по отрезку [a, b]:", j, "\n")
-    methods = {"Формула прямоугольника": rectangle_method, "КФ левого прямоугольника": left_rectangle_method,
+    methods = {"КФ левого прямоугольника": left_rectangle_method,
                "КФ правого прямоугольника": right_rectangle_method,
                "КФ среднего прямоугольника": middle_rectangle_method,
                "КФ трапеции": trapeze_method, "КФ Симпсона (параболы)": simpson_method,
@@ -53,3 +63,4 @@ for f in funcs.keys():
         value = methods[i](f, a, b)
         print("Значение интеграла по данной формуле:", value)
         print("Абсолютная фактическая погрешность:", abs(value - j))
+        print("Относительная фактическая погрешность:", abs(value - j) / abs(j))
