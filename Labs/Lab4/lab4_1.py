@@ -8,12 +8,20 @@ def f_custom(x):
     return math.cos(x) - 2 * x
 
 
+def der_f_custom(x):
+    return (-1) * math.sin(x) - 2
+
+
 def integral_f_custom(a, b):
     return math.sin(b) - math.sin(a) + a * a - b * b
 
 
 def f_0(x):
     return 1
+
+
+def der_f_0(x):
+    return 0
 
 
 def integral_f_0(a, b):
@@ -24,6 +32,10 @@ def f_1(x):
     return 2 * x
 
 
+def der_f_1(x):
+    return 2
+
+
 def integral_f_1(a, b):
     return b * b - a * a
 
@@ -32,12 +44,20 @@ def f_2(x):
     return 3 * (x ** 2)
 
 
+def der_f_2(x):
+    return 6 * x
+
+
 def integral_f_2(a, b):
     return b ** 3 - a ** 3
 
 
 def f_3(x):
     return 4 * (x ** 3)
+
+
+def der_f_3(x):
+    return 12 * (x ** 2)
 
 
 def integral_f_3(a, b):
