@@ -1,5 +1,5 @@
 import math
-from approximation_methods import bisection_method, newton_method, modified_newton_method, secant_method
+from Labs.Lab1.approximation_methods import bisection_method, newton_method, modified_newton_method, secant_method
 
 
 def localize_roots(a, b, f, n):
