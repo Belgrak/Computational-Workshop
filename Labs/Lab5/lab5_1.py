@@ -7,8 +7,38 @@ from scipy import integrate, optimize
 from Labs.Lab1 import lab1, approximation_methods
 from scipy.optimize import root
 
-N = 6
-EPS = 10 ** -10
+N = 10
+EPS = 10 ** -12
+
+
+
+def bisection_method(f, a, b):
+    roots = []
+    intervals = []
+    h = (b - a) / 100
+    x1 = a
+    x2 = x1 + h
+    y1 = f(x1)
+    while x2 <= b:
+        y2 = f(x2)
+        if y1 * y2 <= 0:
+            intervals.append((x1, x2))
+        x1 = x2
+        x2 += h
+        y1 = y2
+
+    for a, b in intervals:
+        while b - a > 2 * 10 ** (-13):
+            c = (a + b) / 2
+            if f(a) * f(c) <= 0:
+                b = c
+            else:
+                a = c
+        roots.append((a + b) / 2)
+    l = len(roots)
+    if l % 2 != 0:
+        roots[int(l / 2)] = 0
+    return roots
 
 
 def poly(x):
@@ -50,7 +80,7 @@ def kfnast(func, a, b, n):
     for i, j in sections:
         steps, approximated_x, diff, first_approximation = approximation_methods.bisection_method(i, j, w_n, EPS)
         nodes.append(approximated_x)
-
+    # nodes = bisection_method(w_n, a, b)
     print("Найденный ортогональный многочлен:", "x ** n + " + " + ".join(f"{a_list[i]} * x ** {i}" for i in range(n)))
 
     print([i.real for i in numpy.roots([1] + a_list[::-1])])
@@ -71,15 +101,15 @@ for i in [poly, f]:
     print("\n===================================")
     print("Функция:", d[i])
     real_val, _ = spi.quad(lambda x: i(x) * p(x), a, b)
-    print("Значение интеграла по отрезку [a, b] в библиотеке sympy:", real_val)
+    print("Значение интеграла по отрезку [a, b] в библиотеке scipy:", real_val)
     ikf_result = ikf(i, a, b, N)
     print(f"Приближенное значение ИКФ ({N} узлов): {ikf_result:.15f}")
-    print("Абсолютная фактическая погрешность:", abs(ikf_result - real_val))
+    print(f"Абсолютная фактическая погрешность: {abs(ikf_result - real_val):.20f}")
     print("\n")
-# for j in [f, poly_2n]:
-#     print("Функция:", d[j])
-#     real_val, _ = spi.quad(lambda x: j(x) * p(x), a, b)
-#     kfnast_result = kfnast(j, a, b, N)
-#     print(f"Приближенное значение КФНАСТ ({N} узлов): {kfnast_result:.15f}")
-#     print("Абсолютная фактическая погрешность:", abs(kfnast_result - real_val))
-#     print("\n===================================")
+for j in [f, poly_2n]:
+    print("Функция:", d[j])
+    real_val, _ = spi.quad(lambda x: j(x) * p(x), a, b)
+    kfnast_result = kfnast(j, a, b, N)
+    print(f"Приближенное значение КФНАСТ ({N} узлов): {kfnast_result:.15f}")
+    print("Абсолютная фактическая погрешность:", abs(kfnast_result - real_val))
+    print("\n===================================")
