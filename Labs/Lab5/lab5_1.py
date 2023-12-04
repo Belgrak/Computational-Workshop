@@ -71,16 +71,11 @@ def ikf(func, a, b, n):
 
 
 def kfnast(func, a, b, n):
-    nodes = []
     moments = [integrate.quad(lambda x: p(x) * x ** k, a, b)[0] for k in range(2 * n)]
     matr_left = np.array([[moments[j] for j in range(i, i + n)] for i in range(n)])
     a_list = np.linalg.solve(matr_left, [(-1) * moments[i] for i in range(n, 2 * n)])
     w_n = lambda x: x ** n + sum(a_list[i] * x ** i for i in range(n))
-    sections = lab1.localize_roots(a, b, w_n, n)
-    for i, j in sections:
-        steps, approximated_x, diff, first_approximation = approximation_methods.bisection_method(i, j, w_n, EPS)
-        nodes.append(approximated_x)
-    # nodes = bisection_method(w_n, a, b)
+    nodes = bisection_method(w_n, a, b)
     print("Найденный ортогональный многочлен:", "x ** n + " + " + ".join(f"{a_list[i]} * x ** {i}" for i in range(n)))
 
     print([i.real for i in numpy.roots([1] + a_list[::-1])])
